@@ -14,14 +14,14 @@ data = pd.DataFrame.from_dict(j['data'])
 st.title("Football Data Analysis")
 
 # Get the unique values of homeID and awayID
-home_teams = data["homeID"].unique()
-away_teams = data["awayID"].unique()
+home_teams = data["home_name"].unique()
+away_teams = data["away_name"].unique()
 
 # Add a dropdown filter for teams
 team = st.selectbox("Select team", home_teams.tolist() + away_teams.tolist())
 
 # Show the data filtered by team
-data_filtered = data[(data["homeID"] == team) | (data["awayID"] == team)]
+data_filtered = data[(data["home_name"] == team) | (data["away_name"] == team)]
 st.dataframe(data_filtered)
 
 # Show a summary of the data
@@ -41,7 +41,7 @@ plt.show()
 st.pyplot(fig)
 
 # Show a scatter plot of homeGoalCount vs awayGoalCount
-data_filtered_home = data[data["homeID"] == team]
+data_filtered_home = data[data["home_name"] == team]
 grouped = data.groupby(["homeGoalCount", "awayGoalCount"]).agg(count=("homeGoalCount", "count"))
 data_filtered_home = data_filtered_home.merge(grouped, on=["homeGoalCount", "awayGoalCount"])
 scatter = plt.figure()
